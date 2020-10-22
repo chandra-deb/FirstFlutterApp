@@ -5,7 +5,11 @@ class Question extends StatelessWidget {
   final int questionIndex;
   final Function handleQuestion;
 
-  Question({this.questions, this.questionIndex, this.handleQuestion});
+  Question({
+    this.questions,
+    this.questionIndex,
+    this.handleQuestion,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +31,12 @@ class Question extends StatelessWidget {
                     .map(
                   (option) => RaisedButton(
                     // ToDo $$Complete This onpress function$$
-                    onPressed: handleQuestion,
-
+                    onPressed: () => handleQuestion(
+                      questions[questionIndex]['correctIndex'],
+                      (questions[questionIndex]['answerOptions']
+                              as List<String>)
+                          .indexOf(option),
+                    ),
                     child: Text(option),
                   ),
                 )

@@ -11,18 +11,31 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   int questionIndex = 0;
+  int score = 0;
   final questions = const [
     {
       'questionText': 'When Bangladesh got independence?',
+      'correctIndex': 4,
       'answerOptions': [
         '1970',
         '1888',
         '1222',
         '1971',
-      ]
+      ],
+    },
+    {
+      'questionText': 'Bangladesh\'s independence day??',
+      'correctIndex': 3,
+      'answerOptions': [
+        '23 March',
+        '10 January',
+        '26 March',
+        '25 May',
+      ],
     },
     {
       'questionText': 'Who is Bangladesh\'s first president?',
+      'correctIndex': 2,
       'answerOptions': [
         'Mujibur Rahman',
         'Tajuddin Ahmed',
@@ -32,6 +45,7 @@ class _AppState extends State<App> {
     },
     {
       'questionText': 'Who am I?',
+      'correctIndex': 1,
       'answerOptions': [
         'Man',
         'Animal',
@@ -41,16 +55,20 @@ class _AppState extends State<App> {
     }
   ];
 
-  void changeQuestion() {
+  void handleQuestion(int correctIndex, int answeredIndex) {
     setState(() {
       questionIndex += 1;
     });
-    print(questionIndex);
+    answeredIndex += 1;
+    if (correctIndex == answeredIndex) {
+      score += 5;
+    }
   }
 
   void handleReset() {
     setState(() {
       questionIndex = 0;
+      score = 0;
     });
   }
 
@@ -69,9 +87,9 @@ class _AppState extends State<App> {
             ? Question(
                 questions: questions,
                 questionIndex: questionIndex,
-                handleQuestion: changeQuestion,
+                handleQuestion: handleQuestion,
               )
-            : Result(handleReset),
+            : Result(handleReset, score),
       ),
     );
   }
