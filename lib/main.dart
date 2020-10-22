@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/result.dart';
 import './question.dart';
 
 void main() => runApp(App());
@@ -47,6 +48,12 @@ class _AppState extends State<App> {
     print(questionIndex);
   }
 
+  void handleReset() {
+    setState(() {
+      questionIndex = 0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -58,11 +65,13 @@ class _AppState extends State<App> {
           centerTitle: true,
         ),
         backgroundColor: Colors.lightBlue,
-        body: Question(
-          questions: questions,
-          questionIndex: questionIndex,
-          handleQuestion: changeQuestion,
-        ),
+        body: questionIndex < questions.length
+            ? Question(
+                questions: questions,
+                questionIndex: questionIndex,
+                handleQuestion: changeQuestion,
+              )
+            : Result(handleReset),
       ),
     );
   }
