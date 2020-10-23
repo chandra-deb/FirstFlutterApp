@@ -30,6 +30,9 @@ class Question extends StatelessWidget {
                 ...(questions[questionIndex]['answerOptions'] as List<String>)
                     .map(
                   (option) => RaisedButton(
+                    highlightColor: Colors.blueAccent,
+                    textColor: Colors.black54,
+
                     // ToDo $$Complete This onpress function$$
                     onPressed: () => handleQuestion(
                       questions[questionIndex]['correctIndex'],
@@ -37,7 +40,9 @@ class Question extends StatelessWidget {
                               as List<String>)
                           .indexOf(option),
                     ),
-                    child: Text(option),
+                    child: Text(
+                      option,
+                    ),
                   ),
                 )
               ],

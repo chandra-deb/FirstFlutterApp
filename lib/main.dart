@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/result.dart';
 import './question.dart';
+import './data.dart';
 
 void main() => runApp(App());
 
@@ -12,48 +13,22 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   int questionIndex = 0;
   int score = 0;
-  final questions = const [
-    {
-      'questionText': 'When Bangladesh got independence?',
-      'correctIndex': 4,
-      'answerOptions': [
-        '1970',
-        '1888',
-        '1222',
-        '1971',
-      ],
-    },
-    {
-      'questionText': 'Bangladesh\'s independence day??',
-      'correctIndex': 3,
-      'answerOptions': [
-        '23 March',
-        '10 January',
-        '26 March',
-        '25 May',
-      ],
-    },
-    {
-      'questionText': 'Who is Bangladesh\'s first president?',
-      'correctIndex': 2,
-      'answerOptions': [
-        'Mujibur Rahman',
-        'Tajuddin Ahmed',
-        'YeaHia Khan',
-        'Syed Nazrul',
-      ]
-    },
-    {
-      'questionText': 'Who am I?',
-      'correctIndex': 1,
-      'answerOptions': [
-        'Man',
-        'Animal',
-        'Deamon',
-        'Nothing',
-      ]
+  final questions = Data.data;
+  bool showAddQuestionButton = true;
+
+  Widget bodyController() {
+    if (questions.length == 0) {
+      return Text('You have not added any question!');
+    } else {
+      return questionIndex < questions.length
+          ? Question(
+              questions: questions,
+              questionIndex: questionIndex,
+              handleQuestion: handleQuestion,
+            )
+          : Result(handleReset, score);
     }
-  ];
+  }
 
   void handleQuestion(int correctIndex, int answeredIndex) {
     setState(() {
@@ -83,13 +58,11 @@ class _AppState extends State<App> {
           centerTitle: true,
         ),
         backgroundColor: Colors.lightBlue,
-        body: questionIndex < questions.length
-            ? Question(
-                questions: questions,
-                questionIndex: questionIndex,
-                handleQuestion: handleQuestion,
-              )
-            : Result(handleReset, score),
+        body: Column(
+          children: [
+            bodyController(),
+          ],
+        ),
       ),
     );
   }
